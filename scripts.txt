@@ -2,22 +2,22 @@
 # 在Windows宿主机上执行这些命令，它们会自动在WSL中运行
 
 # 1. 进入WSL中的项目目录
-wsl -e bash -c "cd /home/docker-compose/nebula && pwd"
+wsl -e bash -cl "cd /home/docker-compose/nebula && pwd"
 
 # 2. 处理脚本乱码问题（如果需要）
-wsl -e bash -c "cd /home/docker-compose/nebula && sed -i 's/\r$//' init-nebula-cluster.sh"
+wsl -e bash -cl "cd /home/docker-compose/nebula && sed -i 's/\r$//' init-nebula-cluster.sh"
 
 # 3. 启动NebulaGraph集群
-wsl -e bash -c "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml up -d"
+wsl -e bash -cl "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml up -d"
 
 # 4. 等待服务启动（建议等待30秒）
 timeout /t 30 /nobreak
 
 # 5. 初始化集群（如果需要）
-wsl -e bash -c "cd /home/docker-compose/nebula && chmod +x init-nebula-cluster.sh && ./init-nebula-cluster.sh"
+wsl -e bash -cl "cd /home/docker-compose/nebula && chmod +x init-nebula-cluster.sh && ./init-nebula-cluster.sh"
 
 # 6. 检查服务状态
-wsl -e bash -c "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml ps"
+wsl -e bash -cl "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml ps"
 
 # 7. 手动添加存储节点（3.x版本的nebula需要手动add host）
 # 使用Nebula控制台连接到图服务(控制台在windows宿主机上)

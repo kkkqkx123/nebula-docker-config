@@ -31,7 +31,7 @@ nebula/
 确保项目文件已同步到 WSL 目录：
 ```powershell
 # 在 Windows PowerShell 中执行
-wsl -e bash -c "ls -la /home/docker-compose/nebula"
+wsl -e bash -cl "ls -la /home/docker-compose/nebula"
 ```
 
 ### 2. 执行部署脚本
@@ -40,22 +40,22 @@ wsl -e bash -c "ls -la /home/docker-compose/nebula"
 
 ```powershell
 # 查看当前工作目录
-wsl -e bash -c "cd /home/docker-compose/nebula && pwd"
+wsl -e bash -cl "cd /home/docker-compose/nebula && pwd"
 
 # 处理脚本乱码问题（如果需要）
-wsl -e bash -c "cd /home/docker-compose/nebula && sed -i 's/\r$//' init-nebula-cluster.sh"
+wsl -e bash -cl "cd /home/docker-compose/nebula && sed -i 's/\r$//' init-nebula-cluster.sh"
 
 # 启动 NebulaGraph 集群
-wsl -e bash -c "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml up -d"
+wsl -e bash -cl "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml up -d"
 
 # 等待服务启动（30秒）
 timeout /t 30 /nobreak
 
 # 初始化集群（如果需要）
-wsl -e bash -c "cd /home/docker-compose/nebula && chmod +x init-nebula-cluster.sh && ./init-nebula-cluster.sh"
+wsl -e bash -cl "cd /home/docker-compose/nebula && chmod +x init-nebula-cluster.sh && ./init-nebula-cluster.sh"
 
 # 检查服务状态
-wsl -e bash -c "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml ps"
+wsl -e bash -cl "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml ps"
 ```
 
 ### 3. 添加存储节点
@@ -63,4 +63,4 @@ wsl -e bash -c "cd /home/docker-compose/nebula && docker-compose -f docker-compo
 如果需要手动添加存储节点，执行：
 
 ```powershell
-wsl -e bash -c "nebula-console -u root -p nebula --address=127.0.0.1 --port=9669 -e 'ADD HOSTS \"storaged0\":9779, \"storaged1\":9779, \"storaged2\":9779;'"
+wsl -e bash -cl "nebula-console -u root -p nebula --address=127.0.0.1 --port=9669 -e 'ADD HOSTS \"storaged0\":9779, \"storaged1\":9779, \"storaged2\":9779;'"
