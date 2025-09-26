@@ -10,8 +10,8 @@ wsl -e bash -cl "cd /home/docker-compose/nebula && sed -i 's/\r$//' init-nebula-
 # 3. 启动NebulaGraph集群
 wsl -e bash -cl "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml up -d"
 
-# 4. 等待服务启动（建议等待30秒）
-timeout /t 30 /nobreak
+# 4. 等待服务启动（建议等待10秒）
+timeout /t 10 /nobreak
 
 # 5. 初始化集群（如果需要）
 wsl -e bash -cl "cd /home/docker-compose/nebula && chmod +x init-nebula-cluster.sh && ./init-nebula-cluster.sh"
@@ -23,3 +23,6 @@ wsl -e bash -cl "cd /home/docker-compose/nebula && docker-compose -f docker-comp
 # 使用Nebula控制台连接到图服务(控制台在windows宿主机上)
 nebula-console -u root -p nebula --address=127.0.0.1 --port=9669
 ADD HOSTS "storaged0":9779, "storaged1":9779, "storaged2":9779;
+
+# 8. 重启集群
+wsl -e bash -cl "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml down -v && docker-compose -f docker-compose.nebula.yml up -d"
