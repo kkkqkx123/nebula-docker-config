@@ -32,9 +32,16 @@ check_service_health() {
         return 1
     fi
     
-    # Try to connect to the service
+    # Try to connect to the service using Windows host nebula-console
     if [ -n "$port" ]; then
-        if ! docker exec "$container_name" nebula-console --addr="$container_name" --port="$port" -u root -p nebula -e "SHOW HOSTS;" > /dev/null 2>&1; then
+        # Use different commands for different service types
+        local query_cmd="SHOW HOSTS;"
+        if [[ "$service_name" == *"StorageD"* ]]; then
+            query_cmd="SHOW HOSTS storage;"
+        fi
+        
+        # Try to connect using Windows host nebula-console via WSL
+        if ! wsl -e bash -c "nebula-console --addr=$container_name --port=$port -u root -p nebula -e \"$query_cmd\"" > /dev/null 2>&1; then
             echo "❌ $service_name is not responding to queries"
             return 1
         fi
@@ -48,8 +55,8 @@ check_service_health() {
 check_cluster_status() {
     echo "Checking cluster status..."
     
-    # Try to connect to GraphD and check cluster status
-    if docker exec nebula-graphd-1 nebula-console --addr=graphd --port=9669 -u root -p nebula -e "SHOW HOSTS;" > /tmp/nebula_cluster_status.txt 2>&1; then
+    # Try to connect to GraphD and check cluster status using Windows host nebula-console
+    if wsl -e bash -c "nebula-console --addr=graphd --port=9669 -u root -p nebula -e 'SHOW HOSTS;'" > /tmp/nebula_cluster_status.txt 2>&1; then
         echo "✅ Cluster status check passed"
         echo "Cluster information:"
         cat /tmp/nebula_cluster_status.txt

@@ -34,7 +34,7 @@ services:
       - 19559:19559
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "nebula-console", "--addr", "metad0", "--port", "9559", "-u", "root", "-p", "nebula", "-e", "SHOW HOSTS;"]
+      test: ["CMD-SHELL", "curl -f http://localhost:19559/status || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -76,7 +76,7 @@ services:
       - 19560:19559
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "nebula-console", "--addr", "metad1", "--port", "9559", "-u", "root", "-p", "nebula", "-e", "SHOW HOSTS;"]
+      test: ["CMD-SHELL", "curl -f http://localhost:19559/status || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -118,7 +118,7 @@ services:
       - 19561:19559
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "nebula-console", "--addr", "metad2", "--port", "9559", "-u", "root", "-p", "nebula", "-e", "SHOW HOSTS;"]
+      test: ["CMD-SHELL", "curl -f http://localhost:19559/status || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -165,7 +165,7 @@ services:
       - 19779:19779
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "nebula-console", "--addr", "storaged0", "--port", "9779", "-u", "root", "-p", "nebula", "-e", "SHOW HOSTS storage;"]
+      test: ["CMD-SHELL", "curl -f http://localhost:19779/status || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -211,7 +211,7 @@ services:
       - 19780:19779
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "nebula-console", "--addr", "storaged1", "--port", "9779", "-u", "root", "-p", "nebula", "-e", "SHOW HOSTS storage;"]
+      test: ["CMD-SHELL", "curl -f http://localhost:19779/status || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -257,7 +257,7 @@ services:
       - 19781:19779
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "nebula-console", "--addr", "storaged2", "--port", "9779", "-u", "root", "-p", "nebula", "-e", "SHOW HOSTS storage;"]
+      test: ["CMD-SHELL", "curl -f http://localhost:19779/status || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 10
@@ -341,7 +341,7 @@ services:
       - 19670:19670
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "nebula-console", "--addr", "graphd", "--port", "9669", "-u", "root", "-p", "nebula", "-e", "SHOW HOSTS;"]
+      test: ["CMD-SHELL", "curl -f http://localhost:19669/status || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 10
