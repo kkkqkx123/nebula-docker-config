@@ -1,12 +1,25 @@
-在wsl中cd /home/docker-compose/codebase-index
+# NebulaGraph 部署脚本 - WSL环境
+# 在Windows宿主机上执行这些命令，它们会自动在WSL中运行
 
-# 处理脚本乱码问题
-# sed -i 's/\r$//' setup-config-files.sh && bash setup-config-files.sh
+# 1. 进入WSL中的项目目录
+wsl -e bash -c "cd /home/docker-compose/nebula && pwd"
 
-cd /home/docker-compose/codebase-index/nebula && docker-compose -f docker-compose.nebula.yml up -d
-# chmod 777 init-nebula-cluster.sh
-# ./init-nebula-cluster.sh
+# 2. 处理脚本乱码问题（如果需要）
+wsl -e bash -c "cd /home/docker-compose/nebula && sed -i 's/\r$//' init-nebula-cluster.sh"
 
-# 需要手动add host
+# 3. 启动NebulaGraph集群
+wsl -e bash -c "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml up -d"
+
+# 4. 等待服务启动（建议等待30秒）
+timeout /t 30 /nobreak
+
+# 5. 初始化集群（如果需要）
+wsl -e bash -c "cd /home/docker-compose/nebula && chmod +x init-nebula-cluster.sh && ./init-nebula-cluster.sh"
+
+# 6. 检查服务状态
+wsl -e bash -c "cd /home/docker-compose/nebula && docker-compose -f docker-compose.nebula.yml ps"
+
+# 7. 手动添加存储节点（3.x版本的nebula需要手动add host）
+# 使用Nebula控制台连接到图服务(控制台在windows宿主机上)
 nebula-console -u root -p nebula --address=127.0.0.1 --port=9669
 ADD HOSTS "storaged0":9779, "storaged1":9779, "storaged2":9779;
