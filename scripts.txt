@@ -1,0 +1,12 @@
+在wsl中cd /home/docker-compose/codebase-index
+
+# 处理脚本乱码问题
+# sed -i 's/\r$//' setup-config-files.sh && bash setup-config-files.sh
+
+cd /home/docker-compose/codebase-index/nebula && docker-compose -f docker-compose.nebula.yml up -d
+# chmod 777 init-nebula-cluster.sh
+# ./init-nebula-cluster.sh
+
+# 需要手动add host
+nebula-console -u root -p nebula --address=127.0.0.1 --port=9669
+ADD HOSTS "storaged0":9779, "storaged1":9779, "storaged2":9779;
