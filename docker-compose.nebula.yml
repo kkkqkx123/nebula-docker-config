@@ -308,7 +308,7 @@ services:
       - storaged1
       - storaged2
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9100/metrics"]
+      test: ["CMD-SHELL", "pgrep nebula-stats-exporter > /dev/null || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
