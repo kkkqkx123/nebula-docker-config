@@ -1,0 +1,43 @@
+clusters:
+  - name: codebase-index
+    instances:
+      - instanceName: graphd
+        endpointIP: graphd
+        endpointPort: 19669
+        componentType: graphd
+      - instanceName: metad0
+        endpointIP: metad0
+        endpointPort: 19559
+        componentType: metad
+      - instanceName: metad1
+        endpointIP: metad1
+        endpointPort: 19559
+        componentType: metad
+      - instanceName: metad2
+        endpointIP: metad2
+        endpointPort: 19559
+        componentType: metad
+      - instanceName: storaged0
+        endpointIP: storaged0
+        endpointPort: 19779
+        componentType: storaged
+      - instanceName: storaged1
+        endpointIP: storaged1
+        endpointPort: 19779
+        componentType: storaged
+      - instanceName: storaged2
+        endpointIP: storaged2
+        endpointPort: 19779
+        componentType: storaged
+
+# Global configuration for the exporter
+global:
+  # Timeout for scraping metrics from NebulaGraph services
+  scrape_timeout: 30s
+  # Interval for scraping metrics
+  scrape_interval: 15s
+  # Enable detailed metrics collection
+  enable_detailed_metrics: true
+  # Connection retry settings
+  max_retries: 3
+  retry_delay: 5s
